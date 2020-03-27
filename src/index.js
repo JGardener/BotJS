@@ -60,7 +60,11 @@ client.on('message', (channel, userstate, message, self) => {
         }}).then((response) => {
                 return response.json()
         }).then((data) => {
-            client.say(channel, `${userstate["display-name"]} has been following since ${data["created_at"]}`)
+        function parseISOString(s) {
+        var b = s.split(/\D+/);
+        return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+    }
+        client.say(channel, `${userstate["display-name"]} has been following since ${parseISOString(data["created_at"])}`)
         });
     }
             getUserFollowAge(userstate["user-id"]);
