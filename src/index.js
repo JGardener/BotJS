@@ -53,21 +53,18 @@ client.on('message', (channel, userstate, message, self) => {
     if(message === "!followage"){
     const getUserFollowAge = (userId) => {
     
-   fetch(`https://api.twitch.tv/kraken/users/${userId}/follows/channels/36866421`, { 
+    fetch(`https://api.twitch.tv/kraken/users/${userId}/follows/channels/36866421`, { 
         headers: {
           'Accept': 'application/vnd.twitchtv.v5+json',
           'Client-ID': API_CLIENT_ID,
-        }})
-            .then((response) => {
+        }}).then((response) => {
                 return response.json()
         }).then((data) => {
-        client.say(channel, `${userstate["display-name"]} has been following since ${data["created_at"]}`)
-  });
-
-    getUserFollowAge(userstate["user-id"]);
-}
+            client.say(channel, `${userstate["display-name"]} has been following since ${data["created_at"]}`)
+        });
     }
-    
+            getUserFollowAge(userstate["user-id"]);
+}
 
 
 console.log((message))
