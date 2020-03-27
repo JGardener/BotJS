@@ -17,40 +17,42 @@ const client = new tmi.Client({
 });
 
 client.on('message', (channel, userstate, message, self) => {
+    const args = message.split(" ");
+    const command = args.shift();
+
     if (self) {
         return;
     }
 
 // Dice
-    if (message === "!dice") {
+    if (command === "!dice") {
         client.say(channel, `${userstate["display-name"]} rolled: ` + Math.floor((Math.random() * 6) + 1));
     }
 
     
 // Hug
-    if (message.includes("!hug")){
-    let newMessage = message.replace("!hug", "");
-        client.say(channel, `${userstate["display-name"]} gives a big hug to ${newMessage}.`);
-     
+    if (command === ("!hug")){   
+    console.log(args);
+    client.say(channel, `${userstate["display-name"]} gives a big hug to ${args.join(" ")}.`);    
 }
 
 // Discord
- if (message === "!discord"){
+ if (command === "!discord"){
     client.say(channel, "Join the community Discord! https://discord.gg/8VyXumH")    
 }
 
 // Lurk
- if(message === "!lurk"){
+ if(command === "!lurk"){
     client.say(channel, `${userstate["display-name"]} is now lurking, see you soon!`)
 }
 
 // Highlight
-    if (message === "!highlight"){
+    if (command === "!highlight"){
     client.say(channel, "Check out the latest stream highlight video; #19! https://www.youtube.com/watch?v=MneaiGrX7iU")
 }
 
 //Followage 
-    if(message === "!followage"){
+    if(command === "!followage"){
     const getUserFollowAge = (userId) => {
     
     fetch(`https://api.twitch.tv/kraken/users/${userId}/follows/channels/36866421`, { 
