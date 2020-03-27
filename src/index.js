@@ -1,8 +1,11 @@
 import tmi from 'tmi.js';
 import dotenv from 'dotenv';
+import fetch from "node-fetch"
 
 dotenv.config();
 
+
+const API_CLIENT_ID = process.env.CLIENT_ID
 const client = new tmi.Client({
     identity: {
         username: process.env.BOT_USERNAME,
@@ -48,10 +51,29 @@ client.on('message', (channel, userstate, message, self) => {
 
 //Followage 
     if(message === "!followage"){
-    client.say(channel, "Fill in followage data here, Rom!")
+    const getUserFollowAge = (userId) => {
+    
+   fetch(`https://api.twitch.tv/kraken/users/${userId}/follows/channels/36866421`, { 
+        headers: {
+          'Accept': 'application/vnd.twitchtv.v5+json',
+          'Client-ID': API_CLIENT_ID,
+        }})
+            .then((response) => {
+                return response.json()
+        }).then((data) => {
+        client.say(channel, `${userstate["display-name"]} has been following since ${data["created_at"]}`)
+  });
+
+    getUserFollowAge(userstate["user-id"]);
 }
+    }
+    
+
+
 console.log((message))
 });
+
+
 
 client.on('connected', () => {
     console.log('Connected');
