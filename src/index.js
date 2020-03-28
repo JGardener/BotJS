@@ -1,9 +1,15 @@
 import tmi from 'tmi.js';
 import dotenv from 'dotenv';
-import fetch from "node-fetch"
+import fetch from "node-fetch";
+import moment from "moment";
 
 dotenv.config();
 
+// Convert time function
+function parseISOString(s) {
+        var b = s.split(/\D+/);
+        return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
+}
 
 const API_CLIENT_ID = process.env.CLIENT_ID
 const client = new tmi.Client({
@@ -24,6 +30,7 @@ client.on('message', (channel, userstate, message, self) => {
         return;
     }
 
+// Command for simple testing.
 // Dice
     if (command === "!dice") {
         client.say(channel, `${userstate["display-name"]} rolled: ` + Math.floor((Math.random() * 6) + 1));
@@ -37,12 +44,12 @@ client.on('message', (channel, userstate, message, self) => {
 }
 
 // Discord
- if (command === "!discord"){
+    if (command === "!discord"){
     client.say(channel, "Join the community Discord! https://discord.gg/8VyXumH")    
 }
 
 // Lurk
- if(command === "!lurk"){
+    if(command === "!lurk"){
     client.say(channel, `${userstate["display-name"]} is now lurking, see you soon!`)
 }
 
@@ -62,10 +69,6 @@ client.on('message', (channel, userstate, message, self) => {
         }}).then((response) => {
                 return response.json()
         }).then((data) => {
-        function parseISOString(s) {
-        var b = s.split(/\D+/);
-        return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
-    }
         client.say(channel, `${userstate["display-name"]} has been following since ${parseISOString(data["created_at"])}`)
         });
     }
@@ -73,6 +76,20 @@ client.on('message', (channel, userstate, message, self) => {
 }
 
 
+// Uptime
+    if(command === "!uptime"){
+    fetch("https://api.twitch.tv/helix/streams?user_id=36866421", {
+        headers: {
+        'Client-ID': API_CLIENT_ID,
+        
+        }}).then((response) => {
+                return response.json()
+        }).then((list) => {
+        client.say(channel, `Rom started the stream ${moment(list.data[0]["started_at"]).fromNow()} at ${parseISOString(list.data[0]["started_at"])}`)
+        
+        }
+    )
+}
 console.log((message))
 });
 
