@@ -90,6 +90,11 @@ client.on('message', (channel, userstate, message, self) => {
         }
     )
 }
+
+// Quote 6
+    if(command === "!quote6"){
+    client.say(channel, "'I don't think this game is broken.' - Romculus on Dead By Daylight, 2016")
+}
 console.log((message))
 });
 
