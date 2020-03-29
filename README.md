@@ -2,4 +2,4 @@
 
 ## Aim
 
-- Create a new level of interactivity between a Twitch streamer and their audience.  
+- A Bot built to create a new level of interactivity between my community and I with commands and other ambitious functions such as visual and audio cues. 
