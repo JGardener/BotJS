@@ -11,6 +11,7 @@ import Uptime from './Commands/Uptime';
 import Followage from "./Commands/Followage"
 import Highlight from "./Commands/Highlight"
 import Clip from './Commands/Clip';
+import Slap from "./Commands/Slap"
 
 dotenv.config();
 
@@ -86,6 +87,11 @@ client.on('message', (channel, userstate, message, self) => {
 // Clip
     if(command === "!clip"){
     // put clip command here. 
+}
+
+// Slap 
+    if(command === "!slap"){
+    Slap(client, channel, userstate, args)
 }
 console.log((message))
 });
