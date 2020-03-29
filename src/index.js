@@ -10,6 +10,7 @@ import Quote6 from "./Commands/Quote6"
 import Uptime from './Commands/Uptime';
 import Followage from "./Commands/Followage"
 import Highlight from "./Commands/Highlight"
+import Clip from './Commands/Clip';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ function parseISOString(s) {
         return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
 
+const API_TOKEN = process.env.TOKEN
 const API_CLIENT_ID = process.env.CLIENT_ID
 const client = new tmi.Client({
     identity: {
@@ -79,6 +81,11 @@ client.on('message', (channel, userstate, message, self) => {
 // Quote 6
     if(command === "!quote6"){
     Quote6(client, channel)
+}
+
+// Clip
+    if(command === "!clip"){
+    // put clip command here. 
 }
 console.log((message))
 });
