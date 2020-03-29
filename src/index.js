@@ -2,6 +2,14 @@ import tmi from 'tmi.js';
 import dotenv from 'dotenv';
 import fetch from "node-fetch";
 import moment from "moment";
+import Dice from "./Commands/Dice"
+import Discord from './Commands/Discord';
+import Lurk from "./Commands/Lurk"
+import Hug from "./Commands/Hug"
+import Quote6 from "./Commands/Quote6"
+import Uptime from './Commands/Uptime';
+import Followage from "./Commands/Followage"
+import Highlight from "./Commands/Highlight"
 
 dotenv.config();
 
@@ -30,70 +38,47 @@ client.on('message', (channel, userstate, message, self) => {
         return;
     }
 
-// Command for simple testing.
+
 // Dice
     if (command === "!dice") {
-        client.say(channel, `${userstate["display-name"]} rolled: ` + Math.floor((Math.random() * 6) + 1));
+        Dice(client, channel, userstate);
     }
 
     
 // Hug
     if (command === ("!hug")){   
-    console.log(args);
-    client.say(channel, `${userstate["display-name"]} gives a big hug to ${args.join(" ")}.`);    
+    Hug(client, channel, userstate, args) 
 }
 
 // Discord
     if (command === "!discord"){
-    client.say(channel, "Join the community Discord! https://discord.gg/8VyXumH")    
+    Discord(client, channel);    
 }
 
 // Lurk
     if(command === "!lurk"){
-    client.say(channel, `${userstate["display-name"]} is now lurking, see you soon!`)
+    Lurk(client, channel, userstate)
 }
 
 // Highlight
     if (command === "!highlight"){
-    client.say(channel, "Check out the latest stream highlight video; #19! https://www.youtube.com/watch?v=MneaiGrX7iU")
+    Highlight(client, channel)
 }
 
 //Followage 
     if(command === "!followage"){
-    const getUserFollowAge = (userId) => {
-    
-    fetch(`https://api.twitch.tv/kraken/users/${userId}/follows/channels/36866421`, { 
-        headers: {
-          'Accept': 'application/vnd.twitchtv.v5+json',
-          'Client-ID': API_CLIENT_ID,
-        }}).then((response) => {
-                return response.json()
-        }).then((data) => {
-        client.say(channel, `${userstate["display-name"]} has been following since ${parseISOString(data["created_at"])}`)
-        });
-    }
-            getUserFollowAge(userstate["user-id"]);
+    Followage(client, channel, API_CLIENT_ID, userstate, parseISOString);
 }
 
 
 // Uptime
     if(command === "!uptime"){
-    fetch("https://api.twitch.tv/helix/streams?user_id=36866421", {
-        headers: {
-        'Client-ID': API_CLIENT_ID,
-        
-        }}).then((response) => {
-                return response.json()
-        }).then((list) => {
-        client.say(channel, `Rom started the stream ${moment(list.data[0]["started_at"]).fromNow()} at ${parseISOString(list.data[0]["started_at"])}`)
-        
-        }
-    )
+    Uptime(client, channel, API_CLIENT_ID, parseISOString)
 }
 
 // Quote 6
     if(command === "!quote6"){
-    client.say(channel, "'I don't think this game is broken.' - Romculus on Dead By Daylight, 2016")
+    Quote6(client, channel)
 }
 console.log((message))
 });
