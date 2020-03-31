@@ -21,7 +21,9 @@ function parseISOString(s) {
         return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
 
-const API_TOKEN = process.env.TOKEN
+const REFRESH_CODE = process.env.REFRESH_TOKEN
+const AUTH_CODE = process.env.AUTHORIZATION_CODE
+const CLIENT_SECRET = process.env.TOKEN
 const API_CLIENT_ID = process.env.CLIENT_ID
 const client = new tmi.Client({
     identity: {
@@ -86,7 +88,7 @@ client.on('message', (channel, userstate, message, self) => {
 
 // Clip
     if(command === "!clip"){
-    // put clip command here. 
+    Clip(API_CLIENT_ID, CLIENT_SECRET, AUTH_CODE, REFRESH_CODE)
 }
 
 // Slap 
