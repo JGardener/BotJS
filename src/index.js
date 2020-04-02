@@ -87,9 +87,9 @@ client.on('message', (channel, userstate, message, self) => {
 }
 
 // Clip
-    if(command === "!clip"){
-    Clip(API_CLIENT_ID, CLIENT_SECRET, AUTH_CODE, REFRESH_CODE)
-}
+//     if(command === "!clip"){
+//     Clip(client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE)
+// }
 
 // Slap 
     if(command === "!slap"){
