@@ -21,6 +21,7 @@ function parseISOString(s) {
         return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
 
+const DISCORD_WEBHOOK = process.env.DISC_WEBHOOK
 const REFRESH_CODE = process.env.REFRESH_TOKEN
 const AUTH_CODE = process.env.AUTHORIZATION_CODE
 const CLIENT_SECRET = process.env.TOKEN
