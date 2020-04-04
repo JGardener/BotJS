@@ -41,9 +41,9 @@ return fetch(`https://api.twitch.tv/helix/clips?broadcaster_id=36866421`, {
   
 }
 
-const sendToDiscord = (user,editURL) => {
+const sendToDiscord = (DISCORD_WEBHOOK, user,editURL) => {
 console.log("This is inside the sendToDiscord" + editURL)
-return fetch("https://discordapp.com/api/webhooks/695516341527904318/q1dYd8isAcXKf6JTmt_xu0TtyLtz3NvvoJFh96P-b98QB2OAqCIin-1myEYj-BBt5_5a", {
+return fetch(DISCORD_WEBHOOK, {
   method: "POST",
   headers: {
     'Content-Type': 'application/json'
@@ -57,13 +57,13 @@ return fetch("https://discordapp.com/api/webhooks/695516341527904318/q1dYd8isAcX
 }
 
 
-const Clip = (client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE) => {
+const Clip = (DISCORD_WEBHOOK, client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE) => {
   refreshToken(API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE)
     .then((accessToken) => {
       createClip(client, channel, userstate, accessToken, API_CLIENT_ID)
         .then((object) => {
           console.log(object.user, object.editURL)
-          sendToDiscord(object.user, object.editURL)})})
+          sendToDiscord(DISCORD_WEBHOOK, object.user, object.editURL)})})
         
  
 }

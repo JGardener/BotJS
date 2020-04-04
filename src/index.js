@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import fetch from "node-fetch";
 import moment from "moment";
 import Dice from "./Commands/Dice"
-import Discord from './Commands/Discord';
+
 import Lurk from "./Commands/Lurk"
 import Hug from "./Commands/Hug"
 import Quote6 from "./Commands/Quote6"
@@ -90,7 +90,7 @@ client.on('message', (channel, userstate, message, self) => {
 
 // Clip
     if(command === "!clip"){
-    Clip(client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE)
+    Clip(DISCORD_WEBHOOK, client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE)
 }
 
 // Slap 
