@@ -21,6 +21,7 @@ function parseISOString(s) {
         return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
 
+const DISCORD_BOT_TOKEN = process.env.DISC_BOT_TOKEN
 const DISCORD_WEBHOOK = process.env.DISC_WEBHOOK
 const REFRESH_CODE = process.env.REFRESH_TOKEN
 const AUTH_CODE = process.env.AUTHORIZATION_CODE
@@ -88,9 +89,9 @@ client.on('message', (channel, userstate, message, self) => {
 }
 
 // Clip
-//     if(command === "!clip"){
-//     Clip(client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE)
-// }
+    if(command === "!clip"){
+    Clip(client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE)
+}
 
 // Slap 
     if(command === "!slap"){
