@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import fetch from "node-fetch";
 import moment from "moment";
 import Dice from "./Commands/Dice"
-
+import Discord from "./Commands/Discord"
 import Lurk from "./Commands/Lurk"
 import Hug from "./Commands/Hug"
 import Quote6 from "./Commands/Quote6"
