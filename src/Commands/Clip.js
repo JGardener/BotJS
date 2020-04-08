@@ -30,13 +30,14 @@ return fetch(`https://api.twitch.tv/helix/clips?broadcaster_id=36866421`, {
       return response.json()
     })
       .then((list) => {
-        let editURL = list.data[0]["edit_url"];
+        let editURL = `https://clips.twitch.tv/${list.data[0]["id"]}`;
+        console.log(editURL)
         let user = userstate["display-name"];
         client.say(channel,`${user} Thanks for clipping! You'll find your clip in the Discord #clips-highlights channel.`)
     
           return {
           user: userstate["display-name"],
-          editURL: list.data[0]["edit_url"]
+          editURL: `https://clips.twitch.tv/${list.data[0]["id"]}`
         }})
   
 }
