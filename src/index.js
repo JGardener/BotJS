@@ -1,5 +1,7 @@
+
 import tmi from 'tmi.js';
 import dotenv from 'dotenv';
+dotenv.config();
 import fetch from "node-fetch";
 import moment from "moment";
 import Dice from "./Commands/Dice"
@@ -13,7 +15,6 @@ import Highlight from "./Commands/Highlight"
 import Clip from './Commands/Clip';
 import Slap from "./Commands/Slap"
 
-dotenv.config();
 
 // Convert time function
 function parseISOString(s) {
@@ -21,6 +22,8 @@ function parseISOString(s) {
         return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
 
+
+// BOT INFO
 const DISCORD_BOT_TOKEN = process.env.DISC_BOT_TOKEN
 const DISCORD_WEBHOOK = process.env.DISC_WEBHOOK
 const REFRESH_CODE = process.env.REFRESH_TOKEN
