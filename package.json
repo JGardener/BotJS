@@ -13,6 +13,8 @@
   "dependencies": {
     "discord.js": "^12.1.1",
     "dotenv": "^8.2.0",
+    "firebase": "^7.14.0",
+    "firebase-admin": "^8.10.0",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "tmi.js": "^1.5.0"
