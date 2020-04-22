@@ -41,8 +41,26 @@ export const getHugCount = async () => {
 export const setHugCount = async (count) => {
     // Fetch the Settings Collection Main Document
     const settings = await db.collection("settings").doc("main");
-    // Set the hugCount
-    settings.set({
+    // Set the hugCount - Using UPDATE to avoid resetting all fields within the document. 
+    settings.update({
         hugCount: count,
     });
+};
+
+// Create a function for getting the Slap Count
+export const getSlapCount = async () => {
+  // Query Firestore for the Settings Collection Main Document
+  const settings = await db.collection("settings").doc("main").get();
+  // Return the query data's slapCount
+  return settings.data().slapCount;
+}
+
+// Create a function for setting the Slap Count
+export const setSlapCount = async (count) => {
+  // Fetch the Settings Collection Main Document 
+  const settings = await db.collection("settings").doc("main");
+  // Set the slapCount - Using UPDATE to avoid resetting all fields within the document. 
+  settings.update({
+    slapCount: count
+  });
 };

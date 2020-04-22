@@ -1,8 +1,12 @@
-let slapCounter = 0;
+import { getSlapCount, setSlapCount } from "../Services/FirestoreService"
 
-const Slap = (client, channel, userstate, args) => {
-  ++slapCounter;
-    client.say(channel, `${userstate["display-name"]} slaps ${args.join(" ")}. ${slapCounter} slaps have been given out.`);
+const Slap = async (client, channel, userstate, args) => {
+  let slapCount = await getSlapCount();
+  if (slapCount == null){
+    slapCount = 0;
+  }
+  await setSlapCount(++slapCount);
+    client.say(channel, `${userstate["display-name"]} slaps ${args.join(" ")}. ${slapCount} slaps have been given out.`);
 }
 
 export default Slap
