@@ -1,5 +1,5 @@
-const Discord = (client, channel) => {
-  client.say(channel, "Join the community Discord! https://discord.gg/8VyXumH")
+const Discord = (chatParams) => {
+  chatParams.client.say(chatParams.channel, "Join the community Discord! https://discord.gg/8VyXumH")
 }
 
 export default Discord
