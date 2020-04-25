@@ -1,28 +1,33 @@
 import fetch from "node-fetch"
+import moment from "moment"
 
-const refreshToken = (API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE) => {
+
+
+const refreshToken = () => {
+// const CLIENT_SECRET = process.env.TOKEN
+// const REFRESH_CODE = process.env.REFRESH_TOKEN
+// const API_CLIENT_ID = process.env.CLIENT_ID
 // Refresh Access Token
 let accessToken = ""
-return fetch(`https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=${REFRESH_CODE}&client_id=${API_CLIENT_ID}&client_secret=${CLIENT_SECRET}`, {
+return fetch(`https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=${process.env.REFRESH_TOKEN}&client_id=${process.env.CLIENT_ID}&client_secret=${process.env.TOKEN}`, {
   method: "POST"
 })
   .then((response) => {  
     return response.json()})
       .then((data) => {
       accessToken = `Bearer ${data["access_token"]}`;   
-     console.log("I'm inside refreshToken and I'm the accessToken" + accessToken)
       return accessToken    
 } 
   )
 
 }
 
-const createClip = (client, channel, userstate, accessToken, API_CLIENT_ID) => {
-// console.log("Here's your access token! " + accessToken)
+const createClip = (chatParams, accessToken,) => {
+
 return fetch(`https://api.twitch.tv/helix/clips?broadcaster_id=36866421`, {
   method: "POST",
   headers: {
-    'Client-ID': API_CLIENT_ID,
+    'Client-ID': process.env.CLIENT_ID,
     'Authorization': accessToken
         
   }})
@@ -32,19 +37,22 @@ return fetch(`https://api.twitch.tv/helix/clips?broadcaster_id=36866421`, {
       .then((list) => {
         let editURL = `https://clips.twitch.tv/${list.data[0]["id"]}`;
         console.log(editURL)
-        let user = userstate["display-name"];
-        client.say(channel,`${user} Thanks for clipping! You'll find your clip in the Discord #clips-highlights channel.`)
+        let user = chatParams.userstate["display-name"];
+        chatParams.client.say(chatParams.channel,`${user} Thanks for clipping! You'll find your clip in the Discord #clips-highlights channel.`)
     
           return {
-          user: userstate["display-name"],
+          user: chatParams.userstate["display-name"],
           editURL: `https://clips.twitch.tv/${list.data[0]["id"]}`
         }})
   
 }
 
-const sendToDiscord = (DISCORD_WEBHOOK, user,editURL) => {
-console.log("This is inside the sendToDiscord" + editURL)
-return fetch(DISCORD_WEBHOOK, {
+const sendToDiscord = (user, editURL) => {
+
+// const DISCORD_WEBHOOK = process.env.DISC_WEBHOOK
+
+
+return fetch(process.env.DISC_WEBHOOK, {
   method: "POST",
   headers: {
     'Content-Type': 'application/json'
@@ -52,19 +60,19 @@ return fetch(DISCORD_WEBHOOK, {
 
   body: JSON.stringify({
     username: "RomBot",
-    content: `${user} has clipped! ${editURL}`
+  // April 25th 2020 - update the moment.format() to display time-only, not the full date, time and timezone.
+    content: `${user} clipped the stream at ${moment()}! ${editURL}`
   })
   })
 }
 
 
-const Clip = (DISCORD_WEBHOOK, client, channel, userstate, API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE) => {
-  refreshToken(API_CLIENT_ID, CLIENT_SECRET, REFRESH_CODE)
+const Clip = (chatParams) => {
+  refreshToken()
     .then((accessToken) => {
-      createClip(client, channel, userstate, accessToken, API_CLIENT_ID)
+      createClip(chatParams, accessToken)
         .then((object) => {
-          console.log(object.user, object.editURL)
-          sendToDiscord(DISCORD_WEBHOOK, object.user, object.editURL)})})
+          sendToDiscord(object.user, object.editURL)})})
         
  
 }

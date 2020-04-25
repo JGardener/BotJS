@@ -1,5 +1,5 @@
-const Lurk = (client, channel, userstate) => {
-    client.say(channel, `${userstate["display-name"]} is now lurking, see you soon!`)
+const Lurk = (chatParams) => {
+    chatParams.client.say(chatParams.channel, `${chatParams.userstate["display-name"]} is now lurking, see you soon!`)
 }
 
 export default Lurk
