@@ -14,9 +14,22 @@ const Followage = (chatParams) =>{
         }}).then((response) => {
                 return response.json()
         }).then((data) => {
-        let a = moment(data["created_at"]);
-        let b = moment();
-        chatParams.client.say(chatParams.channel, `${chatParams.userstate["display-name"]} has been following since ${parseISOString(data["created_at"])}, ${a.from(b)}`)
+        let followStart = moment(data["created_at"]);
+        let rightNow = moment();
+        Date.getFormattedDateDiff = function(date1, date2) {
+        var b = moment(date1),
+        a = moment(date2),
+        intervals = ['years','months','weeks','days'],
+        out = [];
+ 
+        for(var i=0; i<intervals.length; i++){
+            var diff = a.diff(b, intervals[i]);
+            b.add(diff, intervals[i]);
+            out.push(diff + ' ' + intervals[i]);
+        }
+        return out.join(', ');
+      };
+        chatParams.client.say(chatParams.channel, `${chatParams.userstate["display-name"]} has been following since ${parseISOString(data["created_at"])}, ${Date.getFormattedDateDiff(followStart, rightNow)}`)
         });
     }
             getUserFollowAge(chatParams.userstate["user-id"]);
